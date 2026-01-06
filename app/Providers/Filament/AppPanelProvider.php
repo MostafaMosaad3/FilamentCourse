@@ -2,12 +2,10 @@
 
 namespace App\Providers\Filament;
 
-use Filament\Enums\ThemeMode;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Filament\Navigation\NavigationGroup;
 use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -21,45 +19,24 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
-class AdminPanelProvider extends PanelProvider
+class AppPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ->default()
-            ->id('admin')
-            ->path('admin')
-            ->login()
+            ->id('app')
+            ->path('app')
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Cyan,
             ])
-            ->navigationGroups([
-                NavigationGroup::make()
-                    ->label('Library Management') ,
-                NavigationGroup::make()
-                    ->label('Borrowing Management'),
-                NavigationGroup::make()
-                    ->label('Administration')
-            ])
-            ->databaseTransactions()
-//            ->darkMode(true)
-//            ->defaultThemeMode(ThemeMode::Dark)
-            ->brandName('Mossad Store')
-//          ->brandLogo(public_path('images/image.png'))
-//          ->font('far fa-star')
-//            ->sidebarCollapsibleOnDesktop()
-//            ->sidebarFullyCollapsibleOnDesktop()
-//            ->navigation(false)
-//              ->topNavigation()
-
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
-            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
+            ->discoverResources(in: app_path('Filament/App/Resources'), for: 'App\Filament\App\Resources')
+            ->discoverPages(in: app_path('Filament/App/Pages'), for: 'App\Filament\App\Pages')
             ->pages([
                 Dashboard::class,
             ])
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
+            ->discoverWidgets(in: app_path('Filament/App/Widgets'), for: 'App\Filament\App\Widgets')
             ->widgets([
-                AccountWidget::class,
+//                AccountWidget::class,
                 FilamentInfoWidget::class,
             ])
             ->middleware([
@@ -72,9 +49,9 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
-            ])
-            ->authMiddleware([
-                Authenticate::class,
-            ]);
+            ]) ;
+//            ->authMiddleware([
+//                Authenticate::class,
+//            ]);
     }
 }
